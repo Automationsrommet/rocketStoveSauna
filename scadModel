@@ -1,4 +1,3 @@
-
 //input parameters
 firebricklength=230;
 firebrickwidth=114;
@@ -14,6 +13,48 @@ timber=50;
 //output parameters
 firebricks=20;
 redbricks=92;
+
+//main
+difference() {
+union(){
+//rotate([90,0,0])instructions();
+translate([0,0,-(redbrickheigth+mortarlayer+firebrickheigth/2)])redbed();
+redwalls();
+redendwalls();
+redtop();
+redinlet();
+redpipe();
+reddome();
+translate([0,0,-(firebrickheigth+mortarlayer)])firebed();
+firewalls();
+fireroof();
+color("pink")benches();
+color("yellow")pillars();    
+color("brown")smokepipe();
+color("red")heatpipe();
+saunadoor();
+terrain();
+earthfloor();
+//cobplaster
+color("beige")translate([(redbrickwidth*3)-mortarlayer,0,350+redbrickwidth+mortarlayer])difference(){cylinder(2*(redbrickwidth+mortarlayer),430,420,center=true);
+    cylinder(3*(redbrickwidth+mortarlayer),420,410,center=true);}
+//barrel
+color("black")translate([(redbrickwidth*3)-mortarlayer,0,8*redbrickheigth+mortarlayer*3])difference(){
+    sphere(390);
+    sphere(380);
+    translate([0,0,-500])cube(1000,center=true);
+}
+//drainpipe
+for(d=[-1200:600:1200])
+color("black")translate([0,d,-180])cube([1900,80,50],center=true);
+//gravel
+color("grey")translate([0,0,-178])cube([1800,2500,50],center=true);
+//sand
+color("white")translate([0,0,-138])cube([1800,2500,10],center=true);
+}
+//saunawall
+translate([0,-3000,0])sphere(3000);
+}
 
 module firebrick(){color("yellow")cube([firebricklength,firebrickwidth,firebrickheigth],center=true);}
 module redbrick(){color("red")cube([redbricklength,redbrickwidth,redbrickheigth],center=true);}
@@ -202,44 +243,3 @@ color("brown")translate([0,0,350])cube([1800,2500,10],center=true);
     translate([-270,0,350])cube(250,center=true);
 }
 }
-
-//difference() {
-union(){
-//rotate([90,0,0])instructions();
-translate([0,0,-(redbrickheigth+mortarlayer+firebrickheigth/2)])redbed();
-redwalls();
-redendwalls();
-redtop();
-redinlet();
-redpipe();
-reddome();
-translate([0,0,-(firebrickheigth+mortarlayer)])firebed();
-firewalls();
-fireroof();
-color("pink")benches();
-color("yellow")pillars();    
-color("brown")smokepipe();
-color("red")heatpipe();
-saunadoor();
-terrain();
-earthfloor();
-//cobplaster
-color("beige")translate([(redbrickwidth*3)-mortarlayer,0,350+redbrickwidth+mortarlayer])difference(){cylinder(2*(redbrickwidth+mortarlayer),430,420,center=true);
-    cylinder(3*(redbrickwidth+mortarlayer),420,410,center=true);}
-//barrel
-color("black")translate([(redbrickwidth*3)-mortarlayer,0,8*redbrickheigth+mortarlayer*3])difference(){
-    sphere(390);
-    sphere(380);
-    translate([0,0,-500])cube(1000,center=true);
-}
-//drainpipe
-for(d=[-1200:600:1200])
-color("black")translate([0,d,-180])cube([1900,80,50],center=true);
-//gravel
-color("grey")translate([0,0,-178])cube([1800,2500,50],center=true);
-//sand
-color("white")translate([0,0,-138])cube([1800,2500,10],center=true);
-}
-//saunawall
-//translate([0,-2000,0])sphere(2000);
-//}
