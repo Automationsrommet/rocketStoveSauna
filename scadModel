@@ -1,0 +1,245 @@
+
+//input parameters
+firebricklength=230;
+firebrickwidth=114;
+firebrickheigth=25;
+redbricklength=235;
+redbrickwidth=114;
+redbrickheigth=72;
+mortarlayer=10;
+jtubelength=2.5;
+away=400;
+bench=420;
+timber=50;
+//output parameters
+firebricks=20;
+redbricks=92;
+
+module firebrick(){color("yellow")cube([firebricklength,firebrickwidth,firebrickheigth],center=true);}
+module redbrick(){color("red")cube([redbricklength,redbrickwidth,redbrickheigth],center=true);}
+
+module redbed(){
+for (i=[-jtubelength-1:1:jtubelength+1]){
+for (j=[-1:2:1]){
+ translate([i*(redbrickwidth+mortarlayer)+mortarlayer*2,j*(redbricklength/2+mortarlayer/2),0])rotate([0,0,90])redbrick();   
+}
+}    
+}
+module redwalls(){
+   for (i=[-jtubelength-0.5:2:jtubelength+0.5]){
+for (j=[-firebricklength+redbrickheigth/2+mortarlayer:firebricklength*2-redbrickheigth-2*mortarlayer:firebricklength-redbrickheigth/2]){
+ translate([i*(redbrickwidth*1.02+mortarlayer/2)+mortarlayer*1.5,j,-mortarlayer])rotate([0,0,0])redbrick();
+ translate([i*(redbrickwidth*1.02+mortarlayer/2)+mortarlayer*1.5,j,redbrickheigth])rotate([0,0,0])redbrick();   
+}}}
+module redendwalls(){
+        translate([-jtubelength*(firebrickwidth+redbrickheigth/2-mortarlayer/8)-firebrickwidth/2,0,-mortarlayer])rotate([0,0,90])redbrick();
+    translate([-jtubelength*(firebrickwidth+redbrickheigth/2-mortarlayer/8)-firebrickwidth/2,0,redbrickheigth])rotate([0,0,90])redbrick();
+translate([jtubelength*(firebrickwidth+redbrickheigth/2)+firebrickwidth/2+firebrickheigth+mortarlayer,0,-mortarlayer])rotate([0,0,90])redbrick();
+translate([jtubelength*(firebrickwidth+redbrickheigth/2)+firebrickwidth/2+firebrickheigth+mortarlayer,0,redbrickheigth])rotate([0,0,90])redbrick();
+    }
+    module redtop(){
+for (i=[-jtubelength-1:7:jtubelength+2]){
+for (j=[-1:2:1]){
+ translate([i*(redbrickwidth+mortarlayer)+mortarlayer*3,j*(redbricklength/2+mortarlayer/2),2*redbrickheigth+mortarlayer])rotate([0,0,90])redbrick(); 
+  translate([i*(redbrickwidth+mortarlayer)+mortarlayer*3,j*(redbricklength/2+mortarlayer/2),3*redbrickheigth+mortarlayer*2])rotate([0,0,90])redbrick();   
+for (k=[-1:1:1]){
+    for (l=[-jtubelength:1:jtubelength]){
+ translate([l*(redbrickheigth+mortarlayer)+firebrickheigth/2,0,firebrickwidth+redbrickheigth+mortarlayer*2])rotate([90,0,90])redbrick();   
+}  
+translate([k*(redbricklength+mortarlayer)+mortarlayer*3,j*(-firebricklength+redbrickheigth/2+mortarlayer),2*redbrickheigth+mortarlayer])rotate([0,0,0])redbrick();
+translate([k*(redbricklength+mortarlayer)+mortarlayer*3,j*(-firebricklength+redbrickheigth/2+mortarlayer),3*redbrickheigth+mortarlayer*2])rotate([0,0,0])redbrick();
+}}
+}
+}
+module redinlet(){
+    for (i=[-1:2:1]){
+for (j=[-1:2:1]){
+    translate([-(redbrickwidth*3)+mortarlayer*6,0,3*redbrickheigth+redbrickwidth+mortarlayer])translate([0,j*(redbricklength/2+mortarlayer+redbrickheigth/2),0])
+    rotate([90,0,0])redbrick();
+    translate([-(redbrickwidth*3)+mortarlayer*6,0,3*redbrickheigth+redbrickwidth+mortarlayer])translate([i*(redbricklength/2-redbrickheigth/2+mortarlayer),0,0])
+    rotate([90,0,90])redbrick();
+}}}
+module redpipe(){
+    for (i=[-1:2:1]){
+for (j=[-1:2:1]){
+    for (k=[0:2:4]){
+    translate([(redbrickwidth*3)-mortarlayer,0,4*redbrickheigth+mortarlayer*3]){rotate([0,0,45+45*i*i])translate([i*(redbricklength/2+mortarlayer),j*(redbricklength/2+mortarlayer*2),k*(redbrickheigth+mortarlayer)])redbrick();
+        rotate([0,0,45+45*i*i])translate([i*(redbricklength-mortarlayer),0,k*(redbrickheigth+mortarlayer)])redbrick();
+        rotate([0,0,45+45*i*i])translate([0,j*(redbricklength/2+mortarlayer*2),(k+1)*(redbrickheigth+mortarlayer)])redbrick();
+        rotate([0,0,0])translate([0,j*(redbricklength/2+mortarlayer*3+redbrickheigth/2),(k+1)*(redbrickheigth+mortarlayer)])redbrick();
+    }}}}}
+module reddome(){
+    for(i=[0:40:360]){
+  translate([(redbrickwidth*3)-mortarlayer,0,350+redbrickwidth/2+mortarlayer]){
+  rotate([0,0,i])translate([370,0,0])rotate([90,0,90])redbrick(); 
+     
+  rotate([0,0,i+20])translate([370,0,redbrickwidth+mortarlayer])rotate([90,0,90])redbrick();  
+}}}
+//firebrick bottom bed
+module firebed(){
+for (i=[-jtubelength:1:jtubelength]){
+for (j=[0:1:0]){
+ translate([i*(firebrickwidth+mortarlayer),j*(firebricklength/2+mortarlayer/2),0])rotate([0,0,90])firebrick();   
+}
+}    
+}
+//firebrick walls
+module firewalls(){
+   for (i=[-jtubelength+0.5:2:jtubelength-0.5]){
+for (j=[-firebricklength/2+firebrickheigth/2:firebricklength-firebrickheigth:firebricklength/2-firebrickheigth/2]){
+ translate([i*(firebrickwidth+mortarlayer/2)+mortarlayer*1.5,j,firebrickheigth+mortarlayer*2])rotate([90,0,0])firebrick();   
+}}
+translate([-jtubelength*(firebrickwidth+mortarlayer/2)-firebrickwidth/2,0,firebrickheigth+mortarlayer*2])rotate([90,0,90])firebrick();
+translate([jtubelength*(firebrickwidth+mortarlayer/2)+firebrickwidth/2+firebrickheigth+mortarlayer,0,mortarlayer])rotate([90,0,90])firebrick();
+translate([jtubelength*(firebrickwidth+mortarlayer/2)+firebrickwidth/2+firebrickheigth+mortarlayer,0,firebrickwidth+mortarlayer*2])rotate([90,0,90])firebrick();
+translate([jtubelength*(firebrickwidth+mortarlayer/2)+firebrickwidth/2+firebrickheigth+mortarlayer,0,firebrickwidth*2+mortarlayer*3])rotate([90,0,90])firebrick();
+}
+
+//firebrick roof
+module fireroof(){
+for (i=[-jtubelength+1:1:jtubelength-1]){
+for (j=[0:1:0]){
+ translate([i*(firebrickwidth+mortarlayer)+firebrickheigth/2,j*(firebricklength/2+mortarlayer/2),firebrickwidth+firebrickheigth/2])rotate([0,0,90])firebrick();   
+}
+}    
+}
+
+module instructions(){
+translate([0,0,300+away])linear_extrude(4)text(("These are the Materials needed"),30);
+translate([0,100,240+away])linear_extrude(4)text(str(firebricks),30);
+translate([0,-100,240+away])linear_extrude(4)text(str(redbricks),30);
+translate([0,100,200+away])firebrick();
+translate([0,-100,200+away])redbrick();
+}
+module benches(){for (i=[-1:2:1]){
+   translate([0,(350+bench/2+300)*i,350+bench/2]){
+       translate([0,i*(bench/2+20),bench/2+300])cube([1800,timber,timber*2],center=true);
+       translate([0,i*(bench/2+20),bench/2+500])cube([1800,timber,timber*2],center=true);
+       difference(){
+       cube([bench*4,bench,bench],center=true);
+           cube([bench*5,bench-timber*2,bench-timber*2],center=true);
+           cube([bench*4-timber*2,bench+timber*2,bench-timber*2],center=true);
+       }}}}
+module saunadoor(){for (i=[-2:0.5:2]){
+         translate([-900,i*(bench/2+20),1170-(abs(i)*30)])cube([timber,timber*2,1600-(abs(i)*60)],center=true);  
+       }}
+       
+module pillars(){for (i=[-1:2:1]){
+       translate([0,i*(500),1900])rotate([75*i,0,0])cube([1800,timber,timber*2],center=true);
+    for (j=[-1:0.66:1]){
+        translate([-850,i*(bench+80),1150-(abs(i)*30)])cube([timber,timber*2,1600-(abs(i)*60)],center=true);
+        translate([850,i*(bench+80),1150-(abs(i)*30)])cube([timber,timber*2,1600-(abs(i)*60)],center=true);
+        translate([j*850,(350+bench+400)*i,350+bench-30])cube([timber,timber*2,1800],center=true);
+        translate([j*850,(190+bench)*i,bench*4+150])rotate([75*i,0,0])cube([timber,timber*2,1300],center=true);
+        translate([j*850,0,bench*4+180])rotate([90,0,0])cube([timber,timber*2,1000],center=true);
+}}}
+module terrain(){
+difference(){
+color("green")translate([0,0,1150])rotate([8,-10,0])cube([3800,4500,10],center=true);
+    translate([0,0,350])cube([1900,2600,10000],center=true);
+    translate([-1400,0,350])cube([1000,1000,10000],center=true);
+}   color("gray") translate([-1500,0,500])rotate([0,20,0])cube([1200,1000,10],center=true);
+}
+module smokepipe(){
+        translate([600,0,250])cylinder(250,75,75,center=true);
+     translate([600,0,125])sphere(75);
+        translate([600,-300,250-125])rotate([90,0,0])cylinder(600,75,75,center=true);
+    translate([600,-600,125])sphere(75);
+        translate([600-700,-300-300,250-125])rotate([90,90,90])cylinder(1400,75,75,center=true);
+    translate([-600,-300,125])sphere(75);
+    translate([-600,-900,125])sphere(75);
+        translate([-700,0,250-125])rotate([90,90,90])cylinder(200,75,75,center=true);
+    translate([-1020,-300,125])sphere(75);
+        translate([-700,-300,250-125])rotate([90,90,90])cylinder(200,75,75,center=true);
+    translate([-1020,-300,-75])sphere(75);
+    translate([-700,-900,250-125])rotate([90,90,90])cylinder(200,75,75,center=true);
+    translate([-1020,-900,-75])sphere(75);
+    translate([-600,-750,250-125])rotate([90,0,0])cylinder(300,75,75,center=true); 
+ translate([-1020,-900,125])sphere(75);   
+    translate([-600,150,250-125])rotate([90,0,0])cylinder(900,75,75,center=true);
+    translate([-600,600,125])sphere(75); 
+    translate([0,600,250-125])rotate([90,90,90])cylinder(1200,75,75,center=true);
+     translate([600,600,125])sphere(75);
+    translate([750,300,250-125])rotate([90,90,30])cylinder(700,75,75,center=true);
+    translate([920,000,125])sphere(75);
+    translate([1050,0,250-125])rotate([90,90,90])cylinder(300,75,75,center=true);
+     translate([1200,000,125])sphere(75);
+    translate([1200,0,250-125+700])rotate([0,0,0])cylinder(1400,75,75,center=true);
+    translate([1200,0,250-125+1500])rotate([0,0,0])cylinder(100,100,0,center=true);
+    
+    translate([-920,-300-300,250-125])rotate([90,90,90])cylinder(200,75,75,center=true);
+    translate([-920,0,250-125])rotate([90,90,90])cylinder(200,75,75,center=true);
+    translate([-920,-300,250-125])rotate([90,90,90])cylinder(200,75,75,center=true);
+    translate([-920,-900,250-125])rotate([90,90,90])cylinder(200,75,75,center=true);
+    translate([-1020,-300,25])cylinder(200,75,75,center=true);
+    translate([-1020,-900,25])cylinder(200,75,75,center=true);
+    translate([-1020,-600,-75])rotate([90,0,0])cylinder(600,75,75,center=true);
+}
+module heatpipe(){
+    translate([-1350,0,250-125])rotate([90,90,90])cylinder(700,75,75,center=true);
+    translate([-1700,0,250-125])sphere(75);
+    translate([-1700,0,250-125])rotate([0,0,90])translate([-1800,0,0])rotate([90,90,90])cylinder(3600,75,75,center=true);
+    translate([-1700,-3600,250-125])sphere(75);
+    translate([-1700,-3600,250-125+750])cylinder(1500,75,75,center=true);
+    translate([-1700,-3600,250-125+1500])sphere(75);
+    translate([-1700,-3600,250-125+1500])translate([3200,0,0])rotate([90,90,90])cylinder(6400,75,75,center=true);
+    translate([-1700+6400,-3600,250-125+1500])sphere(75);
+    
+    translate([-1150,-600,250-125])rotate([90,90,90])cylinder(300,75,75,center=true);
+    translate([-1300,-600,250-125])sphere(75);
+    translate([-1300,-600,250-125])rotate([0,0,90])translate([-1500,0,0])rotate([90,90,90])cylinder(3000,75,75,center=true);
+    translate([-1300,-3600,250-125])sphere(75);
+    translate([-1300,-3600,250-125+500])cylinder(1000,75,75,center=true);
+    translate([-1300,-3600,250-125+1000])sphere(75);
+    translate([-1300,-3600,250-125+1000])translate([3000,0,0])rotate([90,90,90])cylinder(6000,75,75,center=true);
+    translate([-1300+6000,-3600,250-125+1000])sphere(75);
+    translate([-1300+6000,-3600,250-125+1250])cylinder(500,75,75,center=true);
+    }
+module earthfloor(){
+difference(){
+color("brown")translate([0,0,350])cube([1800,2500,10],center=true);
+    translate([270,0,350])cube(250,center=true);
+    translate([-270,0,350])cube(250,center=true);
+}
+}
+
+//difference() {
+union(){
+//rotate([90,0,0])instructions();
+translate([0,0,-(redbrickheigth+mortarlayer+firebrickheigth/2)])redbed();
+redwalls();
+redendwalls();
+redtop();
+redinlet();
+redpipe();
+reddome();
+translate([0,0,-(firebrickheigth+mortarlayer)])firebed();
+firewalls();
+fireroof();
+color("pink")benches();
+color("yellow")pillars();    
+color("brown")smokepipe();
+color("red")heatpipe();
+saunadoor();
+terrain();
+earthfloor();
+//cobplaster
+color("beige")translate([(redbrickwidth*3)-mortarlayer,0,350+redbrickwidth+mortarlayer])difference(){cylinder(2*(redbrickwidth+mortarlayer),430,420,center=true);
+    cylinder(3*(redbrickwidth+mortarlayer),420,410,center=true);}
+//barrel
+color("black")translate([(redbrickwidth*3)-mortarlayer,0,8*redbrickheigth+mortarlayer*3])difference(){
+    sphere(390);
+    sphere(380);
+    translate([0,0,-500])cube(1000,center=true);
+}
+//drainpipe
+for(d=[-1200:600:1200])
+color("black")translate([0,d,-180])cube([1900,80,50],center=true);
+//gravel
+color("grey")translate([0,0,-178])cube([1800,2500,50],center=true);
+//sand
+color("white")translate([0,0,-138])cube([1800,2500,10],center=true);
+}
+//saunawall
+//translate([0,-2000,0])sphere(2000);
+//}
