@@ -8,17 +8,44 @@ redbrickheigth=72;
 mortarlayer=10;
 jtubelength=2.5;
 away=400;
-subtract=300;
+subtract=7000;
 bench=420;
 timber=50;
 //output parameters
 firebricks=20;
 redbricks=92;
 
-//main
+
+//rotate([90,0,0])instructions();
+
 difference() {
 union(){
-//rotate([90,0,0])instructions();
+masonary();
+structure();
+landscape();
+underground();
+}
+translate([0,-subtract,0])sphere(subtract);
+}
+
+module structure(){
+benches();
+pillars();    
+plates();
+saunadoor();
+}
+
+module landscape(){
+terrain();
+earthfloor();
+}
+
+module pipery(){
+smokepipe();
+heatpipe();
+}
+
+module masonary(){
 translate([0,0,-(redbrickheigth+mortarlayer+firebrickheigth/2)])redbed();
 redwalls();
 redendwalls();
@@ -29,13 +56,6 @@ reddome();
 translate([0,0,-(firebrickheigth+mortarlayer)])firebed();
 firewalls();
 fireroof();
-color("pink")benches();
-color("yellow")pillars();    
-color("brown")smokepipe();
-color("red")heatpipe();
-saunadoor();
-terrain();
-earthfloor();
 //cobplaster
 color("beige")translate([(redbrickwidth*3)-mortarlayer,0,350+redbrickwidth+mortarlayer])difference(){cylinder(2*(redbrickwidth+mortarlayer),430,420,center=true);
     cylinder(3*(redbrickwidth+mortarlayer),420,410,center=true);}
@@ -45,6 +65,9 @@ color("black")translate([(redbrickwidth*3)-mortarlayer,0,8*redbrickheigth+mortar
     sphere(380);
     translate([0,0,-500])cube(1000,center=true);
 }
+}
+
+module underground(){
 //drainpipe
 for(d=[-1200:600:1200])
 color("black")translate([0,d,-180])cube([1900,80,50],center=true);
@@ -53,11 +76,6 @@ color("grey")translate([0,0,-178])cube([1800,2500,50],center=true);
 //sand
 color("white")translate([0,0,-138])cube([1800,2500,10],center=true);
 }
-//saunawall
-translate([0,-3000,0])sphere(subtract);
-}
-plates();
-
 module firebrick(){color("yellow")cube([firebricklength,firebrickwidth,firebrickheigth],center=true);}
 module redbrick(){color("red")cube([redbricklength,redbrickwidth,redbrickheigth],center=true);}
 
@@ -154,7 +172,7 @@ translate([0,-100,240+away])linear_extrude(4)text(str(redbricks),30);
 translate([0,100,200+away])firebrick();
 translate([0,-100,200+away])redbrick();
 }
-module benches(){for (i=[-1:2:1]){
+module benches(){color("pink") for (i=[-1:2:1]){
    translate([0,(350+bench/2+300)*i,350+bench/2]){
        translate([0,i*(bench/2+20),bench/2+300])cube([1800,timber,timber*2],center=true);
        translate([0,i*(bench/2+20),bench/2+500])cube([1800,timber,timber*2],center=true);
@@ -168,14 +186,14 @@ module saunadoor(){for (i=[-2:0.5:2]){
        }}
        
        
-module plates(){
+module plates(){ color("grey")
 for (i=[-1:2:1]){
-for(j=[600:600:1100])
-       translate([0,0,1950])rotate([-15*i,0,0])translate([0,i*abs(j),180])cube([1850,1350,12],center=true);
+       translate([0,0,1950])rotate([-15*i,0,0])translate([0,i*abs(600),180])cube([1850,1350,12],center=true);
+       translate([0,0,800])rotate([0,0,0])translate([0,i*abs(1250),00])cube([1850,12,1900],center=true);
        }
 }       
        
-module pillars(){for (i=[-1:2:1]){
+module pillars(){color("yellow")for (i=[-1:2:1]){
 for(j=[0:300:1200])
        translate([0,0,1900])rotate([-15*i,0,0])translate([0,i*abs(j),180])cube([1800,timber*2,timber],center=true);
     for (j=[-1:0.66:1]){
@@ -192,7 +210,7 @@ color("green")translate([0,0,1150])rotate([8,-10,0])cube([3800,4500,10],center=t
     translate([-1400,0,350])cube([1000,1000,10000],center=true);
 }   color("gray") translate([-1500,0,500])rotate([0,20,0])cube([1200,1000,10],center=true);
 }
-module smokepipe(){
+module smokepipe(){color("brown"){
         translate([600,0,250])cylinder(250,75,75,center=true);
      translate([600,0,125])sphere(75);
         translate([600,-300,250-125])rotate([90,0,0])cylinder(600,75,75,center=true);
@@ -227,7 +245,9 @@ module smokepipe(){
     translate([-1020,-900,25])cylinder(200,75,75,center=true);
     translate([-1020,-600,-75])rotate([90,0,0])cylinder(600,75,75,center=true);
 }
+}
 module heatpipe(){
+color("red"){
     translate([-1350,0,250-125])rotate([90,90,90])cylinder(700,75,75,center=true);
     translate([-1700,0,250-125])sphere(75);
     translate([-1700,0,250-125])rotate([0,0,90])translate([-1800,0,0])rotate([90,90,90])cylinder(3600,75,75,center=true);
@@ -247,6 +267,8 @@ module heatpipe(){
     translate([-1300+6000,-3600,250-125+1000])sphere(75);
     translate([-1300+6000,-3600,250-125+1250])cylinder(500,75,75,center=true);
     }
+    }
+    
 module earthfloor(){
 difference(){
 color("brown")translate([0,0,350])cube([1800,2500,10],center=true);
