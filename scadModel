@@ -8,6 +8,7 @@ redbrickheigth=72;
 mortarlayer=10;
 jtubelength=2.5;
 away=400;
+subtract=300;
 bench=420;
 timber=50;
 //output parameters
@@ -53,8 +54,9 @@ color("grey")translate([0,0,-178])cube([1800,2500,50],center=true);
 color("white")translate([0,0,-138])cube([1800,2500,10],center=true);
 }
 //saunawall
-translate([0,-3000,0])sphere(3000);
+translate([0,-3000,0])sphere(subtract);
 }
+plates();
 
 module firebrick(){color("yellow")cube([firebricklength,firebrickwidth,firebrickheigth],center=true);}
 module redbrick(){color("red")cube([redbricklength,redbrickwidth,redbrickheigth],center=true);}
@@ -165,8 +167,17 @@ module saunadoor(){for (i=[-2:0.5:2]){
          translate([-900,i*(bench/2+20),1170-(abs(i)*30)])cube([timber,timber*2,1600-(abs(i)*60)],center=true);  
        }}
        
+       
+module plates(){
+for (i=[-1:2:1]){
+for(j=[600:600:1100])
+       translate([0,0,1950])rotate([-15*i,0,0])translate([0,i*abs(j),180])cube([1850,1350,12],center=true);
+       }
+}       
+       
 module pillars(){for (i=[-1:2:1]){
-       translate([0,i*(500),1900])rotate([75*i,0,0])cube([1800,timber,timber*2],center=true);
+for(j=[0:300:1200])
+       translate([0,0,1900])rotate([-15*i,0,0])translate([0,i*abs(j),180])cube([1800,timber*2,timber],center=true);
     for (j=[-1:0.66:1]){
         translate([-850,i*(bench+80),1150-(abs(i)*30)])cube([timber,timber*2,1600-(abs(i)*60)],center=true);
         translate([850,i*(bench+80),1150-(abs(i)*30)])cube([timber,timber*2,1600-(abs(i)*60)],center=true);
