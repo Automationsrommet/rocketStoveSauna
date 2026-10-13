@@ -18,16 +18,63 @@ redbricks=92;
 
 //rotate([90,0,0])instructions();
 
+display();
+//hollowcavity();
+module hollowcavity(){
+difference(){
+union(){
+for(i=[-1:2:1])
+for(j=[-1:2:1])
+for(k=[-1:2:1])
+translate([i*5,j*5,k*5])cavity();
+
+for(l=[-1:2:1])
+translate([0,l*5,0])cavity();
+
+}
+cavity();
+translate([-300,0,560])cube(300,center=true);
+translate([600,0,-60])cube(300,center=true);
+}
+}
+module cavity(){
+difference(){
+union(){
+jay();
+domehollow();
+translate([600,0,200])cylinder(300,75,75,center=true);
+}
+masonary();
+}
+}
+module jay(){
+translate([-300,0,200])cube([150,260,450],center=true);
+translate([-0,0,50])cube([550,260,150],center=true);
+translate([320,0,300])cube([150,260,650],center=true);
+translate([330,0,550])cube([180,270,470],center=true);
+}
+module domehollow(){
+translate([(redbrickwidth*3)-mortarlayer,0,8*redbrickheigth+mortarlayer*3])
+difference(){
+    sphere(380);
+    translate([0,0,-500])cube(1000,center=true);
+}
+
+translate([(redbrickwidth*3)-mortarlayer,0,8*redbrickheigth+mortarlayer*3-260])cylinder(270,360,360,center=false);
+translate([(redbrickwidth*3)-mortarlayer,0,8*redbrickheigth+mortarlayer*3-260])cylinder(270,150,150,center=false);
+}
+module display(){
 difference() {
 union(){
 masonary();
 structure();
 landscape();
 underground();
+pipery();
 }
-translate([0,-subtract,0])sphere(subtract);
+translate([0,-subtract*2,0])sphere(subtract);
 }
-
+}
 module structure(){
 benches();
 pillars();    
@@ -272,7 +319,7 @@ color("red"){
 module earthfloor(){
 difference(){
 color("brown")translate([0,0,350])cube([1800,2500,10],center=true);
-    translate([270,0,350])cube(250,center=true);
-    translate([-270,0,350])cube(250,center=true);
+    translate([280,0,350])cube(270,center=true);
+    translate([-280,0,350])cube(260,center=true);
 }
 }
