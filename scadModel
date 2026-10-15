@@ -18,23 +18,20 @@ redbricks=92;
 
 //rotate([90,0,0])instructions();
 
-display();
-//hollowcavity();
+//display();
+hollowcavity();
+//cavity();
+
 module hollowcavity(){
 difference(){
-union(){
-for(i=[-1:2:1])
-for(j=[-1:2:1])
-for(k=[-1:2:1])
-translate([i*5,j*5,k*5])cavity();
-
-for(l=[-1:2:1])
-translate([0,l*5,0])cavity();
-
+minkowski(){
+cavity();
+rotate([45,45,45])cube(6,center=true);
 }
 cavity();
-translate([-300,0,560])cube(300,center=true);
-translate([600,0,-60])cube(300,center=true);
+translate([-300,0,560+1000])cube(400,center=true);
+translate([600,0,-60-1000])cube(400,center=true);
+translate([0,-subtract,500])sphere(subtract);
 }
 }
 module cavity(){
@@ -46,6 +43,10 @@ translate([600,0,200])cylinder(300,75,75,center=true);
 }
 masonary();
 }
+translate([-300,0,900])
+cube([300,300,1000],center=true);
+translate([600,0,-440])
+cube([300,300,1000],center=true);
 }
 module jay(){
 translate([-300,0,200])cube([150,260,450],center=true);
@@ -57,11 +58,14 @@ module domehollow(){
 translate([(redbrickwidth*3)-mortarlayer,0,8*redbrickheigth+mortarlayer*3])
 difference(){
     sphere(380);
+    translate([0,0,-120])
+   cylinder(270,170,170,center=false);
     translate([0,0,-500])cube(1000,center=true);
 }
-
+difference(){
 translate([(redbrickwidth*3)-mortarlayer,0,8*redbrickheigth+mortarlayer*3-260])cylinder(270,360,360,center=false);
-translate([(redbrickwidth*3)-mortarlayer,0,8*redbrickheigth+mortarlayer*3-260])cylinder(270,150,150,center=false);
+translate([(redbrickwidth*3)-mortarlayer,0,8*redbrickheigth+mortarlayer*3-260])cylinder(270,170,170,center=false);
+}
 }
 module display(){
 difference() {
@@ -72,7 +76,7 @@ landscape();
 underground();
 pipery();
 }
-translate([0,-subtract*2,0])sphere(subtract);
+translate([0,-subtract,500])sphere(subtract);
 }
 }
 module structure(){
